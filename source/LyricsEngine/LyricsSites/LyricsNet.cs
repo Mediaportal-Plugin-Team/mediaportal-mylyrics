@@ -28,7 +28,7 @@ namespace LyricsEngine.LyricsSites
     //////////////////////////
 
     // RegEx to extract lyrics page out of a search on Artist
-    private const string FindLyricsPagePatternPrefix = @".*<a href=""(.*?)"">";
+    private const string FindLyricsPagePatternPrefix = @"<a href=""([^""]*)"">";
     private const string FindLyricsPagePatternSuffix = "</a>";
 
     ///////////////////////////
