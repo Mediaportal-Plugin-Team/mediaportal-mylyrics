@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 
 namespace LyricsEngine.LyricsSites
 {
@@ -155,6 +156,7 @@ public class Lyricsmode : AbstractSite
         // Need to execute it twice for some reason the first run didn't clean the first occurence
         LyricText = Regex.Replace(LyricText, ".*(<span class=.*>).*", MatchReplace, RegexOptions.Multiline); 
         LyricText = LyricText.Trim();
+        LyricText = HttpUtility.HtmlDecode(LyricText);
     }
 
     private string MatchReplace(Match match)
