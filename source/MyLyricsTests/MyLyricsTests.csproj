@@ -80,9 +80,7 @@
     <Compile Include="MyLyricsLyricsNetTest.cs" />
     <Compile Include="MyLyricsLyricsmodeTest.cs" />
     <Compile Include="LyricsSiteFactoryTest.cs" />
-    <Compile Include="MyLyricsLyricWikiTest.cs" />
     <Compile Include="MyLyricsLyricsOnDemandTest.cs" />
-    <Compile Include="MyLyricsLyrics007Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

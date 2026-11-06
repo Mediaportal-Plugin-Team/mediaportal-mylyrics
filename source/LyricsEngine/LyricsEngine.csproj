@@ -96,7 +96,6 @@
     <Compile Include="LyricsSites\LyricsNet.cs" />
     <Compile Include="LyricsSites\Lyricsmode.cs" />
     <Compile Include="LyricsSites\ILyricSite.cs" />
-    <Compile Include="LyricsSites\Lyrics007.cs" />
     <Compile Include="LyricsSites\LyricsOnDemand.cs" />
     <Compile Include="LyricsSites\LyricsSiteFactory.cs" />
     <Compile Include="LyricsWebClient.cs">
@@ -128,7 +127,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Setup.cs" />
-    <Compile Include="LyricsSites\LyricWiki.cs" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
