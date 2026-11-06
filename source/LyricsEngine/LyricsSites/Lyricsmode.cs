@@ -9,7 +9,7 @@ using System.Web;
 
 namespace LyricsEngine.LyricsSites
 {
-public class Lyricsmode : AbstractSite
+  public class Lyricsmode : AbstractSite
   {
     #region const
 
@@ -146,22 +146,22 @@ public class Lyricsmode : AbstractSite
     // Cleans the lyrics
     private void CleanLyrics()
     {
-        LyricText = LyricText.Replace("</span>", "");
-        LyricText = LyricText.Replace("&quot;", "\"");
-        LyricText = LyricText.Replace("<br>", " ");
-        LyricText = LyricText.Replace("<br />", " ");
-        LyricText = LyricText.Replace("<BR>", " ");
-        LyricText = LyricText.Replace("&amp;", "&");
-        LyricText = Regex.Replace(LyricText, ".*(<span class=.*>).*", MatchReplace, RegexOptions.Multiline);
-        // Need to execute it twice for some reason the first run didn't clean the first occurence
-        LyricText = Regex.Replace(LyricText, ".*(<span class=.*>).*", MatchReplace, RegexOptions.Multiline); 
-        LyricText = LyricText.Trim();
-        LyricText = HttpUtility.HtmlDecode(LyricText);
+      LyricText = LyricText.Replace("</span>", "");
+      LyricText = LyricText.Replace("&quot;", "\"");
+      LyricText = LyricText.Replace("<br>", " ");
+      LyricText = LyricText.Replace("<br />", " ");
+      LyricText = LyricText.Replace("<BR>", " ");
+      LyricText = LyricText.Replace("&amp;", "&");
+      LyricText = Regex.Replace(LyricText, ".*(<span class=.*>).*", MatchReplace, RegexOptions.Multiline);
+      // Need to execute it twice for some reason the first run didn't clean the first occurence
+      LyricText = Regex.Replace(LyricText, ".*(<span class=.*>).*", MatchReplace, RegexOptions.Multiline);
+      LyricText = LyricText.Trim();
+      LyricText = HttpUtility.HtmlDecode(LyricText);
     }
 
     private string MatchReplace(Match match)
     {
-        return match.Value.Replace(match.Groups[1].Value, "");
+      return match.Value.Replace(match.Groups[1].Value, "");
     }
 
 

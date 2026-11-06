@@ -6,13 +6,13 @@ namespace TranslateProvider
   {
     private readonly TranslateClient _client;
 
-      public TranslateProvider(string referrer)
+    public TranslateProvider(string referrer)
     {
-        _client = new TranslateClient(referrer);
+      _client = new TranslateClient(referrer);
     }
 
-      public string Translate(string input, string translateTo, out string detectedLanguage, out bool reliable,
-                            out double confidence, string lineshiftMark)
+    public string Translate(string input, string translateTo, out string detectedLanguage, out bool reliable,
+                          out double confidence, string lineshiftMark)
     {
       const string symbolToRepresentLineshift = "QQQQQ";
       input = input.Replace(lineshiftMark, symbolToRepresentLineshift);

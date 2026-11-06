@@ -4,7 +4,7 @@ namespace MyLyrics
   {
     internal static string LogName = "MyLyrics.log";
 
-      #region Nested type: Screen
+    #region Nested type: Screen
 
     internal enum Screen
     {

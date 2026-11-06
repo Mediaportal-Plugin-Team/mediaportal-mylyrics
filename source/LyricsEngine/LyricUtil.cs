@@ -75,7 +75,7 @@ namespace LyricsEngine
     {
       const string justNewLine = "\n";
 
-        if (str.Split(justNewLine.ToCharArray()).Length == str.Split(Environment.NewLine.ToCharArray()).Length)
+      if (str.Split(justNewLine.ToCharArray()).Length == str.Split(Environment.NewLine.ToCharArray()).Length)
       {
         str = str.Replace(justNewLine, Environment.NewLine);
       }

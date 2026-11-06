@@ -7,45 +7,45 @@ namespace MyLyrics.Convert
   {
     public LyricsDatabase Convert(string path)
     {
-        var db = new LyricsDatabase();
-        var tr = new XmlTextReader(path);
+      var db = new LyricsDatabase();
+      var tr = new XmlTextReader(path);
 
-        var currentArtist = "";
-        while (tr.Read())
+      var currentArtist = "";
+      while (tr.Read())
+      {
+        switch (tr.Name)
         {
-            switch (tr.Name)
+          case "section":
+            if (tr.AttributeCount == 1)
             {
-                case "section":
-                    if (tr.AttributeCount == 1)
-                    {
-                        currentArtist = tr.GetAttribute(0);
-                    }
-                    break;
-                case "entry":
-                    if (tr.AttributeCount == 1)
-                    {
-                        var currentTitle = tr.GetAttribute(0);
-                        var item = new LyricsItem(currentArtist, currentTitle, "", "");
-                        db.Add(DatabaseUtil.CorrectKeyFormat(currentArtist, currentTitle), item);
-                    }
-                    break;
+              currentArtist = tr.GetAttribute(0);
             }
+            break;
+          case "entry":
+            if (tr.AttributeCount == 1)
+            {
+              var currentTitle = tr.GetAttribute(0);
+              var item = new LyricsItem(currentArtist, currentTitle, "", "");
+              db.Add(DatabaseUtil.CorrectKeyFormat(currentArtist, currentTitle), item);
+            }
+            break;
         }
-        tr.Close();
+      }
+      tr.Close();
 
-        var lyricsDatabase = new LyricsDatabase();
+      var lyricsDatabase = new LyricsDatabase();
 
-        using (var xmlreader = new Settings(path, false))
+      using (var xmlreader = new Settings(path, false))
+      {
+        foreach (var kvp in db)
         {
-            foreach (var kvp in db)
-            {
-                var lyrics = xmlreader.GetValueAsString(kvp.Value.Artist, kvp.Value.Title, "");
-                lyricsDatabase.Add(DatabaseUtil.CorrectKeyFormat(kvp.Value.Artist, kvp.Value.Title),
-                                   new LyricsItem(kvp.Value.Artist, kvp.Value.Title, lyrics, "old database entry"));
-            }
+          var lyrics = xmlreader.GetValueAsString(kvp.Value.Artist, kvp.Value.Title, "");
+          lyricsDatabase.Add(DatabaseUtil.CorrectKeyFormat(kvp.Value.Artist, kvp.Value.Title),
+                             new LyricsItem(kvp.Value.Artist, kvp.Value.Title, lyrics, "old database entry"));
         }
+      }
 
-        return lyricsDatabase;
+      return lyricsDatabase;
     }
   }
 }
