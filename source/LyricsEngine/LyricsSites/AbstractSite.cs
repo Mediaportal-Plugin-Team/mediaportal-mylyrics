@@ -1,6 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Timers;
 using Timer = System.Timers.Timer;
+using System.IO;
+using System.Text;
 
 namespace LyricsEngine.LyricsSites
 {
@@ -28,8 +31,8 @@ namespace LyricsEngine.LyricsSites
     protected string LyricText = "";
 
     // Complete
-    protected bool Complete;
     private Timer _searchTimer;
+    private ManualResetEvent timeoutEvent;
 
     #endregion members
 
@@ -42,6 +45,7 @@ namespace LyricsEngine.LyricsSites
       Title = title;
       // Stop search event
       MEventStopSiteSearches = mEventStopSiteSearches;
+      timeoutEvent = new ManualResetEvent(false);
       // Time Limit
       TimeLimit = timeLimit;
     }
@@ -52,9 +56,9 @@ namespace LyricsEngine.LyricsSites
       _searchTimer.Stop();
       _searchTimer.Close();
       _searchTimer.Dispose();
+      timeoutEvent.Dispose();
 
       LyricText = NotFound;
-      Complete = true;
       Thread.CurrentThread.Abort();
     }
 
@@ -89,6 +93,58 @@ namespace LyricsEngine.LyricsSites
           _searchTimer.Stop();
           _searchTimer.Close();
         }
+      }
+    }
+
+    public enum CompletionResult { Completed, ExternallyStoppped, TimeOut };
+    public Tuple<CompletionResult, string> GetWebResult(string urlString)
+    {
+      string result2 = "";
+      using (var client = new LyricsWebClient())
+      using (var completedEvent = new ManualResetEvent(false))
+      {
+        var uri = new Uri(urlString);
+        client.OpenReadCompleted += (sender, e) =>
+        {
+          try
+          {
+            if (e.Cancelled)
+              return;
+            using (var reader = new StreamReader(e.Result, Encoding.UTF8))
+            {
+              result2 = reader.ReadToEnd();
+            }
+          }
+          catch (Exception)
+          {
+            // no logger yet...
+          }
+          finally
+          {
+            try
+            {
+              completedEvent.Set();
+            }
+            catch (ObjectDisposedException)
+            {
+              // The calling method has already timed out or stopped.
+            }
+          }
+        };
+        client.OpenReadAsync(uri);
+
+        var result = WaitHandle.WaitAny(new WaitHandle[]
+        {
+                  completedEvent,
+                  MEventStopSiteSearches,
+                  timeoutEvent
+        });
+        if (result == 1 || result == 2)
+        {
+          client.CancelAsync();
+          return Tuple.Create(result == 1 ? CompletionResult.ExternallyStoppped : CompletionResult.TimeOut, "");
+        }
+        return Tuple.Create(CompletionResult.Completed, result2);
       }
     }
 

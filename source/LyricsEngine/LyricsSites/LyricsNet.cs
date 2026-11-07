@@ -43,7 +43,6 @@ namespace LyricsEngine.LyricsSites
 
     // step 1 output
     private string _lyricsIndex;
-    private bool _firstStepComplete;
 
 
     public LyricsNet(string artist, string title, WaitHandle mEventStopSiteSearches, int timeLimit) : base(artist, title, mEventStopSiteSearches, timeLimit)
@@ -58,21 +57,23 @@ namespace LyricsEngine.LyricsSites
 
       // 1st step - find lyrics page
       var firstUrlString = BaseUrl + SearchPathQuery + artist;
-
-      var findLyricsPageWebClient = new LyricsWebClient();
-      findLyricsPageWebClient.OpenReadCompleted += FirstCallbackMethod;
-      findLyricsPageWebClient.OpenReadAsync(new Uri(firstUrlString));
-
-      while (_firstStepComplete == false)
+      var res = GetWebResult(firstUrlString);
+      if (res.Item1 == CompletionResult.Completed)
       {
-        if (MEventStopSiteSearches.WaitOne(1, true))
+        var findLyricsPagePattern = FindLyricsPagePatternPrefix + Title + FindLyricsPagePatternSuffix;
+        var match = Regex.Match(res.Item2, findLyricsPagePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        if (match.Success)
         {
-          _firstStepComplete = true;
+          _lyricsIndex = match.Groups[1].Value;
         }
         else
         {
-          Thread.Sleep(100);
+          _lyricsIndex = null;
         }
+      }
+      else
+      {
+        _lyricsIndex = null;
       }
 
       if (_lyricsIndex == null)
@@ -82,22 +83,29 @@ namespace LyricsEngine.LyricsSites
       }
       // 2nd step - find lyrics
       var secondUrlString = BaseUrl + _lyricsIndex;
-
-      var findLyricsWebClient = new LyricsWebClient(firstUrlString);
-      findLyricsWebClient.OpenReadCompleted += SecondCallbackMethod;
-      findLyricsWebClient.OpenReadAsync(new Uri(secondUrlString));
-
-      while (Complete == false)
+      res = GetWebResult(secondUrlString);
+      if (res.Item1 == CompletionResult.Completed)
       {
-        if (MEventStopSiteSearches.WaitOne(1, true))
+        var match = Regex.Match(res.Item2, LyricsSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        if (match.Success)
         {
-          Complete = true;
+          LyricText = match.Groups[1].Value;
+        }
+
+        if (LyricText.Length > 0)
+        {
+          CleanLyrics();
         }
         else
         {
-          Thread.Sleep(100);
+          LyricText = NotFound;
         }
       }
+      else
+      {
+        LyricText = NotFound;
+      }
+
     }
 
     public override string Name => SiteName;
@@ -133,80 +141,6 @@ namespace LyricsEngine.LyricsSites
     #endregion interface implemetation
 
     #region private methods
-
-    // Finds lyrics page
-    private void FirstCallbackMethod(object sender, OpenReadCompletedEventArgs e)
-    {
-      Stream reply = null;
-      StreamReader reader = null;
-
-      try
-      {
-        reply = e.Result;
-        reader = new StreamReader(reply, Encoding.UTF8);
-
-        var line = reader.ReadToEnd();
-        var findLyricsPagePattern = FindLyricsPagePatternPrefix + Title + FindLyricsPagePatternSuffix;
-        var match = Regex.Match(line, findLyricsPagePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        if (match.Success)
-        {
-          _lyricsIndex = match.Groups[1].Value;
-        }
-        else
-        {
-          _lyricsIndex = null;
-        }
-      }
-      catch
-      {
-        _lyricsIndex = null;
-      }
-      finally
-      {
-        reader?.Close();
-        reply?.Close();
-        _firstStepComplete = true;
-      }
-    }
-
-    // Find lyrics
-    private void SecondCallbackMethod(object sender, OpenReadCompletedEventArgs e)
-    {
-      Stream reply = null;
-      StreamReader reader = null;
-
-      try
-      {
-        reply = e.Result;
-        reader = new StreamReader(reply, Encoding.UTF8);
-
-        var line = reader.ReadToEnd();
-        var match = Regex.Match(line, LyricsSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        if (match.Success)
-        {
-          LyricText = match.Groups[1].Value;
-        }
-
-        if (LyricText.Length > 0)
-        {
-          CleanLyrics();
-        }
-        else
-        {
-          LyricText = NotFound;
-        }
-      }
-      catch
-      {
-        LyricText = NotFound;
-      }
-      finally
-      {
-        reader?.Close();
-        reply?.Close();
-        Complete = true;
-      }
-    }
 
     private void CleanLyrics()
     {

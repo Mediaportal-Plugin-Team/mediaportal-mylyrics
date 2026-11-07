@@ -52,25 +52,27 @@ namespace LyricsEngine.LyricsSites
 
       var urlString = SiteBaseUrl + "/lyrics/" + firstLetter + "/" + artist + "/" + title + ".html";
 
-      var client = new LyricsWebClient();
-
-      var uri = new Uri(urlString);
-      client.OpenReadCompleted += CallbackMethod;
-      client.OpenReadAsync(uri);
-
-      while (Complete == false)
+      var res = GetWebResult(urlString);
+      if (res.Item1 == CompletionResult.Completed)
       {
-        if (MEventStopSiteSearches.WaitOne(1, true))
+        var match = Regex.Match(res.Item2, LyricsMarkPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        if (match.Success)
         {
-          Complete = true;
+          LyricText = match.Groups[1].Value;
+        }
+
+        if (LyricText.Length > 0)
+        {
+          CleanLyrics();
         }
         else
         {
-          Thread.Sleep(300);
+          LyricText = NotFound;
         }
       }
+      else
+        LyricText = NotFound;
     }
-
 
     public override LyricType GetLyricType()
     {
@@ -104,44 +106,6 @@ namespace LyricsEngine.LyricsSites
     #endregion interface implemetation
 
     #region private methods
-
-    private void CallbackMethod(object sender, OpenReadCompletedEventArgs e)
-    {
-      Stream reply = null;
-      StreamReader reader = null;
-
-      try
-      {
-        reply = e.Result;
-        reader = new StreamReader(reply, Encoding.UTF8);
-
-        var line = reader.ReadToEnd();
-        var match = Regex.Match(line, LyricsMarkPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        if (match.Success)
-        {
-          LyricText = match.Groups[1].Value;
-        }
-
-        if (LyricText.Length > 0)
-        {
-          CleanLyrics();
-        }
-        else
-        {
-          LyricText = NotFound;
-        }
-      }
-      catch
-      {
-        LyricText = NotFound;
-      }
-      finally
-      {
-        reader?.Close();
-        reply?.Close();
-        Complete = true;
-      }
-    }
 
     // Cleans the lyrics
     private void CleanLyrics()

@@ -54,8 +54,10 @@ namespace LyricsEngine
 
       if (request != null && request.GetType() == typeof(HttpWebRequest))
       {
-        ((HttpWebRequest)request).CookieContainer = CookieContainer;
-        ((HttpWebRequest)request).UserAgent = UserAgent;
+        HttpWebRequest req = ((HttpWebRequest)request);
+        req.CookieContainer = CookieContainer;
+        req.UserAgent = UserAgent;
+
         if (_referer != null)
         {
           ((HttpWebRequest)request).Referer = _referer;
