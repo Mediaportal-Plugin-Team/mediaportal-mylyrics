@@ -179,6 +179,7 @@ namespace MyLyrics
       }
 
       LyricsLibrary.CurrentLyricsDatabase = MyLyricsUtils.LyricsDB;
+      WriteMediaPortalXml(null, null);
 
       #endregion
 
