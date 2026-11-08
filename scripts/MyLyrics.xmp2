@@ -13,35 +13,35 @@ The plugin can show LRC's and plain lyrics. It uses both musictags and online se
 </Description>
         <Files>
           <Items>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
               <Param1 />
               <UpdateOption>AlwaysOverwrite</UpdateOption>
               <LocalFileName>..\source\My Lyrics\bin\Release\LyricsEngine.dll</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{abae78ba-a6d6-4946-b5f3-c1ca2384dd94}-LyricsEngine.dll</ZipFileName>
               <DestinationFilename>%Base%\LyricsEngine.dll</DestinationFilename>
             </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
               <Param1 />
               <UpdateOption>AlwaysOverwrite</UpdateOption>
               <LocalFileName>..\source\My Lyrics\bin\Release\TranslateProvider.dll</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{e5302754-efe1-45b0-857d-0cad58a6d6e9}-TranslateProvider.dll</ZipFileName>
               <DestinationFilename>%Base%\TranslateProvider.dll</DestinationFilename>
             </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
               <Param1 />
               <UpdateOption>AlwaysOverwrite</UpdateOption>
               <LocalFileName>..\source\My Lyrics\bin\Release\MyLyrics.dll</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{f46ec3b0-6cc4-4cde-ac31-435c250e43a3}-MyLyrics.dll</ZipFileName>
               <DestinationFilename>%Base%\plugins\Windows\MyLyrics.dll</DestinationFilename>
             </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
               <Param1 />
               <UpdateOption>AlwaysOverwrite</UpdateOption>
               <LocalFileName>..\source\My Lyrics\bin\Release\GoogleTranslateAPI.dll</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{740f5180-49b0-436c-8449-55e38c224f2e}-GoogleTranslateAPI.dll</ZipFileName>
               <DestinationFilename>%Base%\GoogleTranslateAPI.dll</DestinationFilename>
             </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
               <Param1 />
               <UpdateOption>OverwriteIfOlder</UpdateOption>
               <LocalFileName>..\source\External\NLog.dll</LocalFileName>
@@ -55,7 +55,7 @@ The plugin can show LRC's and plain lyrics. It uses both musictags and online se
   </Groups>
   <Sections>
     <Items>
-      <SectionItem Guid="24a17a50-29b8-46a8-975d-2bf8bc0a869e" Name="Welcome Screen" ConditionGroup="Default">
+      <SectionItem Guid="24a17a50-29b8-46a8-975d-2bf8bc0a869e" Name="Welcome Screen" ConditionGroup="Default" Condition="None">
         <Params>
           <Items>
             <SectionParam Name="Header text">
@@ -89,7 +89,7 @@ Click Next to continue or Cancel to exit Setup.</Value>
         <PanelName>Welcome Screen</PanelName>
         <WizardButtonsEnum>NextCancel</WizardButtonsEnum>
       </SectionItem>
-      <SectionItem Guid="02b21c7b-21b6-4eb0-82d0-bf5204c5c5ce" Name="Install Section" ConditionGroup="Default">
+      <SectionItem Guid="02b21c7b-21b6-4eb0-82d0-bf5204c5c5ce" Name="Install Section" ConditionGroup="Default" Condition="None">
         <Params>
           <Items>
             <SectionParam Name="Header Title">
@@ -111,7 +111,7 @@ Click Next to continue or Cancel to exit Setup.</Value>
         </Params>
         <Actions>
           <Items>
-            <ActionItem Name="InstallFiles" ActionType="InstallFiles" ConditionGroup="Default">
+            <ActionItem Name="InstallFiles" ActionType="InstallFiles" ConditionGroup="Default" Condition="None">
               <Params>
                 <Items />
               </Params>
@@ -125,7 +125,7 @@ Click Next to continue or Cancel to exit Setup.</Value>
         <PanelName>Install Section</PanelName>
         <WizardButtonsEnum>Next</WizardButtonsEnum>
       </SectionItem>
-      <SectionItem Guid="2611e10f-778a-4ffe-9a5e-68dc332af56f" Name="Setup Complete" ConditionGroup="Default">
+      <SectionItem Guid="2611e10f-778a-4ffe-9a5e-68dc332af56f" Name="Setup Complete" ConditionGroup="Default" Condition="None">
         <Params>
           <Items>
             <SectionParam Name="Header text">
@@ -160,20 +160,21 @@ Click Next to continue or Cancel to exit Setup.</Value>
         <Type>MediaPortal</Type>
         <Id />
         <MinVersion>
-          <Major>1</Major>
-          <Minor>1</Minor>
-          <Build>6</Build>
-          <Revision>27644</Revision>
+          <Major>*</Major>
+          <Minor>*</Minor>
+          <Build>*</Build>
+          <Revision>*</Revision>
         </MinVersion>
         <MaxVersion>
-          <Major>1</Major>
-          <Minor>1</Minor>
-          <Build>6</Build>
-          <Revision>27644</Revision>
+          <Major>*</Major>
+          <Minor>*</Minor>
+          <Build>*</Build>
+          <Revision>*</Revision>
         </MaxVersion>
         <WarnOnly>false</WarnOnly>
-        <Message>This version of MyLyrics requires MediaPortal 1.7.0</Message>
+        <Message />
         <Name>MediaPortal</Name>
+        <Condition>None</Condition>
       </DependencyItem>
       <DependencyItem>
         <Type>Skin</Type>
@@ -193,6 +194,7 @@ Click Next to continue or Cancel to exit Setup.</Value>
         <WarnOnly>true</WarnOnly>
         <Message>requires Skin version 1.4.0.0 to 1.4.0.0.</Message>
         <Name>Skin</Name>
+        <Condition>None</Condition>
       </DependencyItem>
       <DependencyItem>
         <Type>Installer</Type>
@@ -212,6 +214,7 @@ Click Next to continue or Cancel to exit Setup.</Value>
         <WarnOnly>true</WarnOnly>
         <Message>requires Installer version 1.8.0.0 to 1.99.999.999.</Message>
         <Name>Installer</Name>
+        <Condition>None</Condition>
       </DependencyItem>
     </Items>
   </Dependencies>
@@ -471,6 +474,7 @@ Compatible with MediaPortal 1.4.0
     <OnlineLocation>https://github.com/yoavain/mediaportal-mylyrics/raw/master/builds/MyLyrics-{VERSION}.MPE1</OnlineLocation>
     <ReleaseDate>2015-07-06T21:07:35</ReleaseDate>
     <Tags>mylyrics,lyrics,lrcs,music</Tags>
+    <PlatformCompatibility>AnyCPU</PlatformCompatibility>
     <Location>..\builds\MyLyrics-MAJOR.MINOR.BUILD.REVISION.MPE1</Location>
     <Params>
       <Items>
@@ -506,42 +510,42 @@ Compatible with MediaPortal 1.4.0
   </GeneralInfo>
   <UniqueFileList>
     <Items>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\source\My Lyrics\bin\Release\LyricsEngine.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{abae78ba-a6d6-4946-b5f3-c1ca2384dd94}-LyricsEngine.dll</ZipFileName>
         <DestinationFilename>%Base%\LyricsEngine.dll</DestinationFilename>
       </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\source\My Lyrics\bin\Release\TranslateProvider.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{e5302754-efe1-45b0-857d-0cad58a6d6e9}-TranslateProvider.dll</ZipFileName>
         <DestinationFilename>%Base%\TranslateProvider.dll</DestinationFilename>
       </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\source\My Lyrics\bin\Release\MyLyrics.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{f46ec3b0-6cc4-4cde-ac31-435c250e43a3}-MyLyrics.dll</ZipFileName>
         <DestinationFilename>%Base%\plugins\Windows\MyLyrics.dll</DestinationFilename>
       </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\source\My Lyrics\bin\Release\GoogleTranslateAPI.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{740f5180-49b0-436c-8449-55e38c224f2e}-GoogleTranslateAPI.dll</ZipFileName>
         <DestinationFilename>%Base%\GoogleTranslateAPI.dll</DestinationFilename>
       </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\source\External\NLog.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{75233023-3ef9-45a5-a74d-26aedb4b4325}-NLog.dll</ZipFileName>
         <DestinationFilename>%Base%\NLog.dll</DestinationFilename>
       </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
+      <FileItem InstallType="CopyFile" SystemFile="true" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>icon.bmp</LocalFileName>
