@@ -247,7 +247,7 @@ The plugin can show LRC's and plain lyrics. It uses both musictags and online se
 </VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>https://github.com/Mediaportal-Plugin-Team/mediaportal-mylyrics/releases/download/v[Version]/[Name]-v[Version].mpe1</OnlineLocation>
-    <ReleaseDate>2026-11-10T21:21:21</ReleaseDate>
+    <ReleaseDate>2026-11-10T02:02:02</ReleaseDate>
     <Tags>mylyrics,lyrics,lrcs,music</Tags>
     <PlatformCompatibility>AnyCPU</PlatformCompatibility>
     <Location>.\Release\MyLyrics-v[Version].mpe1</Location>

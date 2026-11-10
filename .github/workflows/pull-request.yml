@@ -38,7 +38,7 @@ jobs:
         with:
           name: MyLyrics
           path: |
-            "${{ github.workspace }}source\My Lyrics\bin\Release\MyLyrics.dll"
+            ${{ github.workspace }}source\My Lyrics\bin\Release\MyLyrics.dll
           retention-days: 7
           if-no-files-found: error
 
